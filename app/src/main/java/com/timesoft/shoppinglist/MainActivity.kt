@@ -1,5 +1,5 @@
 package com.timesoft.shoppinglist
-//Room Persistence Library
+
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 
