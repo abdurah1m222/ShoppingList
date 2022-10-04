@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.util.Log
 import com.timesoft.shoppinglist.R
 import com.timesoft.shoppinglist.databinding.ActivityMainBinding
+import com.timesoft.shoppinglist.fragments.FragmentManager
+import com.timesoft.shoppinglist.fragments.NoteFragment
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -23,7 +25,7 @@ class MainActivity : AppCompatActivity() {
                     Log.d("MyLog","setting")
                 }
                 R.id.notes -> {
-                    Log.d("MyLog","notes")
+                    FragmentManager.setFragment(NoteFragment.newInstance(), this)
                 }
                 R.id.shop_list -> {
                     Log.d("MyLog","shop_list")
