@@ -9,8 +9,10 @@ import com.timesoft.shoppinglist.entities.NoteItem
 import com.timesoft.shoppinglist.entities.ShoppingListItem
 import com.timesoft.shoppinglist.entities.ShoppingListNames
 
-@Database (entities = [LibraryItem::class, NoteItem::class,
-    ShoppingListItem::class, ShoppingListNames::class], version = 1)
+@Database(
+    entities = [LibraryItem::class, NoteItem::class,
+        ShoppingListItem::class, ShoppingListNames::class], version = 1
+)
 abstract class MainDatabase : RoomDatabase() {
 
     abstract fun getDao(): Dao
