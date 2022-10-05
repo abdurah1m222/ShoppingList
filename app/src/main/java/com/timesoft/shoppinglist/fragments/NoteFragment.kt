@@ -3,7 +3,6 @@ package com.timesoft.shoppinglist.fragments
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,14 +17,16 @@ import com.timesoft.shoppinglist.databinding.FragmentNoteBinding
 import com.timesoft.shoppinglist.db.MainViewModel
 import com.timesoft.shoppinglist.entities.NoteItem
 
-class NoteFragment : BaseFragment() {
+class NoteFragment : BaseFragment(), NoteAdapter.Listener {
     private lateinit var binding: FragmentNoteBinding
     private lateinit var editLauncher: ActivityResultLauncher<Intent>
     private lateinit var adapter: NoteAdapter
 
     private val mainViewModel: MainViewModel by activityViewModels {
-        MainViewModel.MainViewModelFactory((context
-            ?.applicationContext as MainApp).database)
+        MainViewModel.MainViewModelFactory(
+            (context
+                ?.applicationContext as MainApp).database
+        )
     }
 
     override fun onClickNew() {
@@ -53,7 +54,7 @@ class NoteFragment : BaseFragment() {
 
     private fun initRcView() = with(binding) {
         rcViewNote.layoutManager = LinearLayoutManager(activity)
-        adapter = NoteAdapter()
+        adapter = NoteAdapter(this@NoteFragment)
         rcViewNote.adapter = adapter
     }
 
@@ -65,16 +66,21 @@ class NoteFragment : BaseFragment() {
 
     private fun onEditResult() {
         editLauncher = registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult()) {
-            if (it.resultCode == Activity.RESULT_OK) {
+            ActivityResultContracts.StartActivityForResult()
+        ) {
+            if (it.resultCode == Activity.RESULT_OK)
                 mainViewModel.insertNote(it.data?.getSerializableExtra(NEW_NOTE_KEY) as NoteItem)
-            }
         }
     }
 
     companion object {
         const val NEW_NOTE_KEY = "title_key"
+
         @JvmStatic
         fun newInstance() = NoteFragment()
+    }
+
+    override fun deleteItem(id: Int) {
+        mainViewModel.deleteNote(id)
     }
 }
