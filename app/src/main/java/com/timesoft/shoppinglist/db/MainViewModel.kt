@@ -5,7 +5,7 @@ import com.timesoft.shoppinglist.entities.NoteItem
 import kotlinx.coroutines.launch
 
 class MainViewModel(database: MainDatabase) : ViewModel() {
-    val dao = database.getDao()
+    private val dao = database.getDao()
     val allNotes: LiveData<List<NoteItem>> = dao.getAllNotes().asLiveData()
 
     fun insertNote(note: NoteItem) = viewModelScope.launch {
@@ -20,7 +20,7 @@ class MainViewModel(database: MainDatabase) : ViewModel() {
         dao.deleteNote(id)
     }
 
-    class MainViewModelFactory(val database: MainDatabase) : ViewModelProvider.Factory {
+    class MainViewModelFactory(private val database: MainDatabase) : ViewModelProvider.Factory {
         override fun <T : ViewModel> create(modelClass: Class<T>): T {//override fun <T : ViewModel?> create(modelClass: Class<T>): T { -> ?
             if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
                 @Suppress("UNCHECKED_CAST")
