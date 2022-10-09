@@ -9,4 +9,6 @@
     <string name="save">Save</string>
     <string name="bold">Bold</string>
     <string name="color">Color</string>
+    <string name="new_list">New list name</string>
+    <string name="list_name">List name</string>
 </resources>

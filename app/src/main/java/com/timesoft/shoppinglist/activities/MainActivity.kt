@@ -5,10 +5,11 @@ import android.os.Bundle
 import android.util.Log
 import com.timesoft.shoppinglist.R
 import com.timesoft.shoppinglist.databinding.ActivityMainBinding
+import com.timesoft.shoppinglist.dialogs.NewListDialog
 import com.timesoft.shoppinglist.fragments.FragmentManager
 import com.timesoft.shoppinglist.fragments.NoteFragment
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), NewListDialog.Listener {
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,11 +32,15 @@ class MainActivity : AppCompatActivity() {
                     Log.d("MyLog", "shop_list")
                 }
                 R.id.new_item -> {
-                    FragmentManager.currentFragment?.onClickNew()
+                    //FragmentManager.currentFragment?.onClickNew()
+                    NewListDialog.showDialog(this, this)
                 }
             }
             true
         }
     }
 
+    override fun onClick(name: String) {
+        Log.d("MyLog", "Name: $name")
+    }
 }
