@@ -23,6 +23,7 @@ import com.timesoft.shoppinglist.entities.NoteItem
 import com.timesoft.shoppinglist.fragments.NoteFragment
 import com.timesoft.shoppinglist.utils.HtmlManager
 import com.timesoft.shoppinglist.utils.MyTouchListener
+import com.timesoft.shoppinglist.utils.TimeManager
 import java.util.*
 
 class NewNoteActivity : AppCompatActivity() {
@@ -154,19 +155,12 @@ class NewNoteActivity : AppCompatActivity() {
         )
     }
 
-    private fun getCurrentTime(): String {
-        val formatter = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            SimpleDateFormat("hh:mm:ss - yyyy/MM/dd", Locale.getDefault())
-        } else TODO("VERSION.SDK_INT < N")
-        return formatter.format(Calendar.getInstance().time)
-    }
-
     private fun createNewNote(): NoteItem {
         return NoteItem(
             null,
             binding.edTitle.text.toString(),
             HtmlManager.toHtml(binding.edDescription.text),
-            getCurrentTime(),
+            TimeManager.getCurrentTime(),
             ""
         )
     }
