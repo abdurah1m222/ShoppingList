@@ -19,8 +19,8 @@ import com.timesoft.shoppinglist.entities.NoteItem
 
 class NoteFragment : BaseFragment(), NoteAdapter.Listener {
     private lateinit var binding: FragmentNoteBinding
-    private var editLauncher: ActivityResultLauncher<Intent>? = null
-    private var adapter: NoteAdapter? = null
+    private lateinit var editLauncher: ActivityResultLauncher<Intent>
+    private lateinit var adapter: NoteAdapter
 
     private val mainViewModel: MainViewModel by activityViewModels {
         MainViewModel.MainViewModelFactory(
@@ -30,7 +30,7 @@ class NoteFragment : BaseFragment(), NoteAdapter.Listener {
     }
 
     override fun onClickNew() {
-        editLauncher?.launch(Intent(activity, NewNoteActivity::class.java))
+        editLauncher.launch(Intent(activity, NewNoteActivity::class.java))
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,7 +60,7 @@ class NoteFragment : BaseFragment(), NoteAdapter.Listener {
 
     private fun observer() {
         mainViewModel.allNotes.observe(viewLifecycleOwner) {
-            adapter?.submitList(it)
+            adapter.submitList(it)
         }
     }
 
@@ -87,7 +87,7 @@ class NoteFragment : BaseFragment(), NoteAdapter.Listener {
         val intent = Intent(activity, NewNoteActivity::class.java).apply {
             putExtra(NEW_NOTE_KEY, note)
         }
-        editLauncher?.launch(intent)
+        editLauncher.launch(intent)
     }
 
     companion object {
