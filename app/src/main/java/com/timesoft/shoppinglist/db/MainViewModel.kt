@@ -2,14 +2,20 @@ package com.timesoft.shoppinglist.db
 
 import androidx.lifecycle.*
 import com.timesoft.shoppinglist.entities.NoteItem
+import com.timesoft.shoppinglist.entities.ShoppingListName
 import kotlinx.coroutines.launch
 
 class MainViewModel(database: MainDatabase) : ViewModel() {
     private val dao = database.getDao()
     val allNotes: LiveData<List<NoteItem>> = dao.getAllNotes().asLiveData()
+    val allShopListNames: LiveData<List<ShoppingListName>> = dao.getAllShopListNames().asLiveData()
 
     fun insertNote(note: NoteItem) = viewModelScope.launch {
         dao.insertNote(note)
+    }
+
+    fun insertShopListName(listName: ShoppingListName) = viewModelScope.launch {
+        dao.insertShopListName(listName)
     }
 
     fun updateNote(note: NoteItem) = viewModelScope.launch {

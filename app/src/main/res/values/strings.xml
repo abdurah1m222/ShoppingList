@@ -11,4 +11,5 @@
     <string name="color">Color</string>
     <string name="new_list">New list name</string>
     <string name="list_name">List name</string>
+    <string name="create_list">Create list</string>
 </resources>
