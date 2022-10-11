@@ -26,7 +26,7 @@ class NoteAdapter(private val listener: Listener) :
         private val binding = NoteListItemBinding.bind(view)
 
         fun setData(note: NoteItem, listener: Listener) = with(binding) {
-            tvTime.text = note.title
+            tvTitle.text = note.title
             tvDescription.text = HtmlManager.getFromHtml(note.content).trim()
             tvTime.text = note.time
             itemView.setOnClickListener {
