@@ -1,5 +1,6 @@
 package com.timesoft.shoppinglist.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,13 +9,13 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.activityViewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.timesoft.shoppinglist.activities.MainApp
+import com.timesoft.shoppinglist.activities.ShopListActivity
 import com.timesoft.shoppinglist.adapters.ShopListNameAdapter
 import com.timesoft.shoppinglist.databinding.FragmentShopListNamesBinding
 import com.timesoft.shoppinglist.db.MainViewModel
 import com.timesoft.shoppinglist.dialogs.DeleteDialog
 import com.timesoft.shoppinglist.dialogs.NewListDialog
-import com.timesoft.shoppinglist.entities.NoteItem
-import com.timesoft.shoppinglist.entities.ShoppingListName
+import com.timesoft.shoppinglist.entities.ShopListNameItem
 import com.timesoft.shoppinglist.utils.TimeManager
 
 class ShopListNamesFragment : BaseFragment(), ShopListNameAdapter.Listener {
@@ -30,7 +31,7 @@ class ShopListNamesFragment : BaseFragment(), ShopListNameAdapter.Listener {
     override fun onClickNew() {
         NewListDialog.showDialog(activity as AppCompatActivity, object : NewListDialog.Listener{
             override fun onClick(name: String) {
-                val shopListName = ShoppingListName(
+                val shopListName = ShopListNameItem(
                     null,
                     name,
                     TimeManager.getCurrentTime(),
@@ -86,14 +87,19 @@ class ShopListNamesFragment : BaseFragment(), ShopListNameAdapter.Listener {
         })
     }
 
-    override fun editItem(shopListName: ShoppingListName) {
+    override fun editItem(shopListNameItem: ShopListNameItem) {
         NewListDialog.showDialog(activity as AppCompatActivity, object : NewListDialog.Listener{
             override fun onClick(name: String) {
-                mainViewModel.updateListName(shopListName.copy(name = name))
+                mainViewModel.updateListName(shopListNameItem.copy(name = name))
             }
-        }, shopListName.name)
+        }, shopListNameItem.name)
     }
 
-    override fun onClickItem(shopListName: ShoppingListName) {}
+    override fun onClickItem(shopListNameItem: ShopListNameItem) {
+        val i = Intent(activity, ShopListActivity::class.java).apply {
+            putExtra(ShopListActivity.SHOP_LIST_NAME, shopListNameItem)
+        }
+        startActivity(i)
+    }
 
 }
