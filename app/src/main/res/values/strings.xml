@@ -16,4 +16,5 @@
     <string name="delete_item">Do you want delete this item?</string>
     <string name="delete_alert">Delete</string>
     <string name="cancel">Cancel</string>
+    <string name="update">Update</string>
 </resources>

@@ -22,6 +22,10 @@ class MainViewModel(database: MainDatabase) : ViewModel() {
         dao.updateNote(note)
     }
 
+    fun updateListName(shopListName: ShoppingListName) = viewModelScope.launch {
+        dao.updateListName(shopListName)
+    }
+
     fun deleteNote(id: Int) = viewModelScope.launch {
         dao.deleteNote(id)
     }
@@ -31,7 +35,7 @@ class MainViewModel(database: MainDatabase) : ViewModel() {
     }
 
     class MainViewModelFactory(private val database: MainDatabase) : ViewModelProvider.Factory {
-        override fun <T : ViewModel> create(modelClass: Class<T>): T {//override fun <T : ViewModel?> create(modelClass: Class<T>): T { -> ?
+        override fun <T : ViewModel> create(modelClass: Class<T>): T {
             if (modelClass.isAssignableFrom(MainViewModel::class.java)) {
                 @Suppress("UNCHECKED_CAST")
                 return MainViewModel(database) as T
