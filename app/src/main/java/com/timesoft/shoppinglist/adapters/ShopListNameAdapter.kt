@@ -8,7 +8,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.timesoft.shoppinglist.R
 import com.timesoft.shoppinglist.databinding.ListNameItemBinding
-import com.timesoft.shoppinglist.entities.NoteItem
 import com.timesoft.shoppinglist.entities.ShoppingListName
 
 class ShopListNameAdapter(private val listener: Listener) :
@@ -31,6 +30,9 @@ class ShopListNameAdapter(private val listener: Listener) :
             itemView.setOnClickListener {}
             imDelete.setOnClickListener {
                 listener.deleteItem(shopListNameItem.id!!)
+            }
+            imEdit.setOnClickListener {
+                listener.editItem(shopListNameItem)
             }
         }
 
@@ -57,6 +59,7 @@ class ShopListNameAdapter(private val listener: Listener) :
 
     interface Listener {
         fun deleteItem(id: Int)
-        fun onClickItem(note: NoteItem)
+        fun editItem(shopListName: ShoppingListName)
+        fun onClickItem(shopListName: ShoppingListName)
     }
 }
