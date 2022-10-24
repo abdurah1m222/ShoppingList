@@ -6,12 +6,12 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.timesoft.shoppinglist.entities.LibraryItem
 import com.timesoft.shoppinglist.entities.NoteItem
-import com.timesoft.shoppinglist.entities.ShoppingListItem
+import com.timesoft.shoppinglist.entities.ShopListItem
 import com.timesoft.shoppinglist.entities.ShopListNameItem
 
 @Database(
     entities = [LibraryItem::class, NoteItem::class,
-        ShoppingListItem::class, ShopListNameItem::class], version = 1
+        ShopListItem::class, ShopListNameItem::class], version = 1
 )
 abstract class MainDatabase : RoomDatabase() {
 

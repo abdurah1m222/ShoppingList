@@ -8,11 +8,12 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.timesoft.shoppinglist.R
 import com.timesoft.shoppinglist.databinding.ListNameItemBinding
+import com.timesoft.shoppinglist.databinding.ShopListItemBinding
 import com.timesoft.shoppinglist.entities.ShopListNameItem
-import com.timesoft.shoppinglist.entities.ShoppingListItem
+import com.timesoft.shoppinglist.entities.ShopListItem
 
 class ShopListItemAdapter(private val listener: Listener) :
-    ListAdapter<ShoppingListItem, ShopListItemAdapter.ItemHolder>(ItemComparator()) {
+    ListAdapter<ShopListItem, ShopListItemAdapter.ItemHolder>(ItemComparator()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
         return if (viewType == 0)
@@ -32,12 +33,16 @@ class ShopListItemAdapter(private val listener: Listener) :
         return getItem(position).itemType //itemType -> 0 or 1
     }
 
-    class ItemHolder(view: View) : RecyclerView.ViewHolder(view) {
-        private val binding = ListNameItemBinding.bind(view)
+    class ItemHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
-        fun setItemData(shopListItem: ShoppingListItem, listener: Listener) = with(binding) {}
+        fun setItemData(shopListItem: ShopListItem, listener: Listener) {
+            val binding = ShopListItemBinding.bind(view)
+            binding.apply {
+                tvName.text = shopListItem.name
+            }
+        }
 
-        fun setLibraryData(shopListItem: ShoppingListItem, listener: Listener) = with(binding) {}
+        fun setLibraryData(shopListItem: ShopListItem, listener: Listener) {}
 
         companion object {
             fun createShopItem(parent: ViewGroup): ItemHolder {
@@ -55,13 +60,13 @@ class ShopListItemAdapter(private val listener: Listener) :
         }
     }
 
-    class ItemComparator : DiffUtil.ItemCallback<ShoppingListItem>() {
+    class ItemComparator : DiffUtil.ItemCallback<ShopListItem>() {
 
-        override fun areItemsTheSame(oldItem: ShoppingListItem, newItem: ShoppingListItem): Boolean {
+        override fun areItemsTheSame(oldItem: ShopListItem, newItem: ShopListItem): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: ShoppingListItem, newItem: ShoppingListItem): Boolean {
+        override fun areContentsTheSame(oldItem: ShopListItem, newItem: ShopListItem): Boolean {
             return oldItem == newItem
         }
     }

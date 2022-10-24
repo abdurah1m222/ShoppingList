@@ -2,6 +2,7 @@ package com.timesoft.shoppinglist.db
 
 import androidx.lifecycle.*
 import com.timesoft.shoppinglist.entities.NoteItem
+import com.timesoft.shoppinglist.entities.ShopListItem
 import com.timesoft.shoppinglist.entities.ShopListNameItem
 import kotlinx.coroutines.launch
 
@@ -10,12 +11,20 @@ class MainViewModel(database: MainDatabase) : ViewModel() {
     val allNotes: LiveData<List<NoteItem>> = dao.getAllNotes().asLiveData()
     val allShopListNames: LiveData<List<ShopListNameItem>> = dao.getAllShopListNames().asLiveData()
 
+    fun getAllItemsFromList(listId: Int): LiveData<List<ShopListItem>> {
+        return dao.getAllShopListItems(listId).asLiveData()
+    }
+
     fun insertNote(note: NoteItem) = viewModelScope.launch {
         dao.insertNote(note)
     }
 
-    fun insertShopListName(listName: ShopListNameItem) = viewModelScope.launch {
-        dao.insertShopListName(listName)
+    fun insertShopListName(listNameItem: ShopListNameItem) = viewModelScope.launch {
+        dao.insertShopListName(listNameItem)
+    }
+
+    fun insertShopItem(shopListItem: ShopListItem) = viewModelScope.launch {
+        dao.insertItem(shopListItem)
     }
 
     fun updateNote(note: NoteItem) = viewModelScope.launch {
