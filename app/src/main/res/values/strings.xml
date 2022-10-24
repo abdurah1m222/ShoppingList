@@ -22,4 +22,5 @@
     <string name="clear_list">Clear list</string>
     <string name="share_list">Share list</string>
     <string name="save_item">Save item</string>
+    <string name="empty_tv">Empty</string>
 </resources>

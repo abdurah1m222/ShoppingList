@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.timesoft.shoppinglist.R
-import com.timesoft.shoppinglist.databinding.ListNameItemBinding
 import com.timesoft.shoppinglist.databinding.ShopListItemBinding
 import com.timesoft.shoppinglist.entities.ShopListNameItem
 import com.timesoft.shoppinglist.entities.ShopListItem
@@ -16,17 +15,14 @@ class ShopListItemAdapter(private val listener: Listener) :
     ListAdapter<ShopListItem, ShopListItemAdapter.ItemHolder>(ItemComparator()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {
-        return if (viewType == 0)
-            ItemHolder.createShopItem(parent)
-        else
-            ItemHolder.createLibraryItem(parent)
+        return if (viewType == 0) ItemHolder.createShopItem(parent)
+        else ItemHolder.createLibraryItem(parent)
     }
 
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {
         if (getItem(position).itemType == 0)
             holder.setItemData(getItem(position), listener)
-        else
-            holder.setLibraryData(getItem(position), listener)
+        else holder.setLibraryData(getItem(position), listener)
     }
 
     override fun getItemViewType(position: Int): Int {
@@ -39,10 +35,17 @@ class ShopListItemAdapter(private val listener: Listener) :
             val binding = ShopListItemBinding.bind(view)
             binding.apply {
                 tvName.text = shopListItem.name
+                tvInfo.text = shopListItem.itemInfo
+                tvInfo.visibility = infoVisibility(shopListItem)
             }
         }
 
         fun setLibraryData(shopListItem: ShopListItem, listener: Listener) {}
+
+        private fun infoVisibility(shopListItem: ShopListItem): Int {
+            return if (shopListItem.itemInfo.isNullOrEmpty())
+                View.GONE else View.VISIBLE
+        }
 
         companion object {
             fun createShopItem(parent: ViewGroup): ItemHolder {
