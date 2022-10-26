@@ -18,4 +18,5 @@
     <color name="picker_orange">#C67907</color>
     <color name="back">#3D3C3B</color>
     <color name="grey">#504F4F</color>
+    <color name="grey_light">#7C7B7B</color>
 </resources>
