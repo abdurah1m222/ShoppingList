@@ -13,6 +13,7 @@ import com.timesoft.shoppinglist.R
 import com.timesoft.shoppinglist.adapters.ShopListItemAdapter
 import com.timesoft.shoppinglist.databinding.ActivityShopListBinding
 import com.timesoft.shoppinglist.db.MainViewModel
+import com.timesoft.shoppinglist.dialogs.EditListItemDialog
 import com.timesoft.shoppinglist.entities.ShopListItem
 import com.timesoft.shoppinglist.entities.ShopListNameItem
 
@@ -57,7 +58,7 @@ class ShopListActivity : AppCompatActivity(), ShopListItemAdapter.Listener {
         val item = ShopListItem(
             null,
             edItem?.text.toString(),
-            null,
+            "",
             false,
             shopListNameItem?.id!!,
             0
@@ -103,8 +104,21 @@ class ShopListActivity : AppCompatActivity(), ShopListItemAdapter.Listener {
         const val SHOP_LIST_NAME = "shop_list_name"
     }
 
-    override fun onClickItem(shopListItem: ShopListItem) {
-        mainViewModel.updateListItem(shopListItem)
+    override fun onClickItem(shopListItem: ShopListItem, state: Int) {
+        when (state) {
+            ShopListItemAdapter.CHECK_BOX -> mainViewModel.updateListItem(shopListItem)
+            ShopListItemAdapter.EDIT -> editListItem(shopListItem)
+        }
+    }
+
+    private fun editListItem(item: ShopListItem) {
+        EditListItemDialog.showDialog(this, item, object : EditListItemDialog.Listener {
+
+            override fun onClick(item: ShopListItem) {
+                mainViewModel.updateListItem(item)
+            }
+
+        })
     }
 
 }

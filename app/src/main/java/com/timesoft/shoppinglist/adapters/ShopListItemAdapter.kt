@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.timesoft.shoppinglist.R
 import com.timesoft.shoppinglist.databinding.ShopListItemBinding
-import com.timesoft.shoppinglist.entities.ShopListNameItem
 import com.timesoft.shoppinglist.entities.ShopListItem
 
 class ShopListItemAdapter(private val listener: Listener) :
@@ -42,8 +41,10 @@ class ShopListItemAdapter(private val listener: Listener) :
                 chBox.isChecked = shopListItem.itemChecked
                 setPaintFlagAndColor(binding)
                 chBox.setOnClickListener {
-                    //setPaintFlagAndColor(binding)
-                    listener.onClickItem(shopListItem.copy(itemChecked = chBox.isChecked))
+                    listener.onClickItem(shopListItem.copy(itemChecked = chBox.isChecked), CHECK_BOX)
+                }
+                imEdit.setOnClickListener {
+                    listener.onClickItem(shopListItem, EDIT)
                 }
             }
         }
@@ -67,7 +68,7 @@ class ShopListItemAdapter(private val listener: Listener) :
         }
 
         private fun infoVisibility(shopListItem: ShopListItem): Int {
-            return if (shopListItem.itemInfo.isNullOrEmpty())
+            return if (shopListItem.itemInfo?.isEmpty()!!)
                 View.GONE else View.VISIBLE
         }
 
@@ -99,6 +100,12 @@ class ShopListItemAdapter(private val listener: Listener) :
     }
 
     interface Listener {
-        fun onClickItem(shopListItem: ShopListItem)
+        fun onClickItem(shopListItem: ShopListItem, state: Int)
     }
+
+    companion object {
+        const val EDIT = 0
+        const val CHECK_BOX = 1
+    }
+
 }
