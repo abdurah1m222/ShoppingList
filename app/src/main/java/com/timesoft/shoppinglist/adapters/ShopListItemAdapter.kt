@@ -1,8 +1,10 @@
 package com.timesoft.shoppinglist.adapters
 
+import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -37,10 +39,32 @@ class ShopListItemAdapter(private val listener: Listener) :
                 tvName.text = shopListItem.name
                 tvInfo.text = shopListItem.itemInfo
                 tvInfo.visibility = infoVisibility(shopListItem)
+                chBox.isChecked = shopListItem.itemChecked
+                setPaintFlagAndColor(binding)
+                chBox.setOnClickListener {
+                    //setPaintFlagAndColor(binding)
+                    listener.onClickItem(shopListItem.copy(itemChecked = chBox.isChecked))
+                }
             }
         }
 
         fun setLibraryData(shopListItem: ShopListItem, listener: Listener) {}
+
+        private fun setPaintFlagAndColor(binding: ShopListItemBinding) {
+            binding.apply {
+                if (chBox.isChecked) {
+                    tvName.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+                    tvInfo.paintFlags = Paint.STRIKE_THRU_TEXT_FLAG
+                    tvName.setTextColor(ContextCompat.getColor(binding.root.context, R.color.grey_light))
+                    tvInfo.setTextColor(ContextCompat.getColor(binding.root.context, R.color.grey_light))
+                } else {
+                    tvName.paintFlags = Paint.ANTI_ALIAS_FLAG
+                    tvInfo.paintFlags = Paint.ANTI_ALIAS_FLAG
+                    tvName.setTextColor(ContextCompat.getColor(binding.root.context, R.color.black))
+                    tvInfo.setTextColor(ContextCompat.getColor(binding.root.context, R.color.black))
+                }
+            }
+        }
 
         private fun infoVisibility(shopListItem: ShopListItem): Int {
             return if (shopListItem.itemInfo.isNullOrEmpty())
@@ -75,8 +99,6 @@ class ShopListItemAdapter(private val listener: Listener) :
     }
 
     interface Listener {
-        fun deleteItem(id: Int)
-        fun editItem(shopListNameItem: ShopListNameItem)
-        fun onClickItem(shopListNameItem: ShopListNameItem)
+        fun onClickItem(shopListItem: ShopListItem)
     }
 }
