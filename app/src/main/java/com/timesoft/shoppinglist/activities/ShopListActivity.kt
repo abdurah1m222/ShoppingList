@@ -1,5 +1,6 @@
 package com.timesoft.shoppinglist.activities
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -16,6 +17,7 @@ import com.timesoft.shoppinglist.db.MainViewModel
 import com.timesoft.shoppinglist.dialogs.EditListItemDialog
 import com.timesoft.shoppinglist.entities.ShopListItem
 import com.timesoft.shoppinglist.entities.ShopListNameItem
+import com.timesoft.shoppinglist.utils.ShareHelper
 
 class ShopListActivity : AppCompatActivity(), ShopListItemAdapter.Listener {
     private lateinit var binding: ActivityShopListBinding
@@ -59,6 +61,12 @@ class ShopListActivity : AppCompatActivity(), ShopListItemAdapter.Listener {
             }
             R.id.clear_list -> {
                 mainViewModel.deleteShopList(shopListNameItem?.id!!, false)
+            }
+            R.id.share_list -> {
+                startActivity(Intent.createChooser(
+                    ShareHelper.shareShopList(adapter?.currentList!!, shopListNameItem?.name!!),
+                    "Share by"
+                ))
             }
         }
         return super.onOptionsItemSelected(item)
