@@ -1,6 +1,7 @@
 package com.timesoft.shoppinglist.db
 
 import androidx.lifecycle.*
+import com.timesoft.shoppinglist.entities.LibraryItem
 import com.timesoft.shoppinglist.entities.NoteItem
 import com.timesoft.shoppinglist.entities.ShopListItem
 import com.timesoft.shoppinglist.entities.ShopListNameItem
@@ -25,6 +26,7 @@ class MainViewModel(database: MainDatabase) : ViewModel() {
 
     fun insertShopItem(shopListItem: ShopListItem) = viewModelScope.launch {
         dao.insertItem(shopListItem)
+        if (!isLibraryItemExists(shopListItem.name)) dao.insertLibraryItem(LibraryItem(null, shopListItem.name))
     }
 
     fun updateListItem(item: ShopListItem) = viewModelScope.launch {
@@ -46,6 +48,10 @@ class MainViewModel(database: MainDatabase) : ViewModel() {
     fun deleteShopList(id: Int, deleteList: Boolean) = viewModelScope.launch {
         if (deleteList) dao.deleteShopListName(id)
         dao.deleteShopItemsByListId(id)
+    }
+
+    private suspend fun isLibraryItemExists(name: String): Boolean {
+        return dao.getAllLibraryItems(name).isNotEmpty()
     }
 
     class MainViewModelFactory(private val database: MainDatabase) : ViewModelProvider.Factory {
