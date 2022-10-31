@@ -24,8 +24,7 @@ class NoteFragment : BaseFragment(), NoteAdapter.Listener {
 
     private val mainViewModel: MainViewModel by activityViewModels {
         MainViewModel.MainViewModelFactory(
-            (context
-                ?.applicationContext as MainApp).database
+            (context?.applicationContext as MainApp).database
         )
     }
 
@@ -70,11 +69,9 @@ class NoteFragment : BaseFragment(), NoteAdapter.Listener {
         ) {
             if (it.resultCode == Activity.RESULT_OK) {
                 val editState = it.data?.getStringExtra(EDIT_STATE_KEY)
-                if (editState == "update") {
+                if (editState == "update")
                     mainViewModel.updateNote(it.data?.getSerializableExtra(NEW_NOTE_KEY) as NoteItem)
-                } else {
-                    mainViewModel.insertNote(it.data?.getSerializableExtra(NEW_NOTE_KEY) as NoteItem)
-                }
+                 else mainViewModel.insertNote(it.data?.getSerializableExtra(NEW_NOTE_KEY) as NoteItem)
             }
         }
     }
