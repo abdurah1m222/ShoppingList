@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.timesoft.shoppinglist.R
+import com.timesoft.shoppinglist.databinding.ShopLibraryListItemBinding
 import com.timesoft.shoppinglist.databinding.ShopListItemBinding
 import com.timesoft.shoppinglist.entities.ShopListItem
 
@@ -49,7 +50,12 @@ class ShopListItemAdapter(private val listener: Listener) :
             }
         }
 
-        fun setLibraryData(shopListItem: ShopListItem, listener: Listener) {}
+        fun setLibraryData(shopListItem: ShopListItem, listener: Listener) {
+            val binding = ShopLibraryListItemBinding.bind(view)
+            binding.apply {
+                tvName.text = shopListItem.name
+            }
+        }
 
         private fun setPaintFlagAndColor(binding: ShopListItemBinding) {
             binding.apply {
