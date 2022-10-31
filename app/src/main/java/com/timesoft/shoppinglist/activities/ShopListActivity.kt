@@ -18,6 +18,7 @@ import com.timesoft.shoppinglist.adapters.ShopListItemAdapter
 import com.timesoft.shoppinglist.databinding.ActivityShopListBinding
 import com.timesoft.shoppinglist.db.MainViewModel
 import com.timesoft.shoppinglist.dialogs.EditListItemDialog
+import com.timesoft.shoppinglist.entities.LibraryItem
 import com.timesoft.shoppinglist.entities.ShopListItem
 import com.timesoft.shoppinglist.entities.ShopListNameItem
 import com.timesoft.shoppinglist.utils.ShareHelper
@@ -127,6 +128,8 @@ class ShopListActivity : AppCompatActivity(), ShopListItemAdapter.Listener {
                 tempShopList.add(shopItem)
             }
             adapter?.submitList(tempShopList)
+            binding.tvEmpty.visibility = if (it.isEmpty())
+                View.VISIBLE else View.GONE
         }
     }
 
@@ -172,6 +175,11 @@ class ShopListActivity : AppCompatActivity(), ShopListItemAdapter.Listener {
         when (state) {
             ShopListItemAdapter.CHECK_BOX -> mainViewModel.updateListItem(shopListItem)
             ShopListItemAdapter.EDIT -> editListItem(shopListItem)
+            ShopListItemAdapter.EDIT_LIBRARY_ITEM -> editLibraryItem(shopListItem)
+            ShopListItemAdapter.DELETE_LIBRARY_ITEM -> {
+                mainViewModel.deleteLibraryItem(shopListItem.id!!)
+                mainViewModel.getAllLibraryItems("%${edItem?.text.toString()}%")
+            }
         }
     }
 
@@ -181,7 +189,15 @@ class ShopListActivity : AppCompatActivity(), ShopListItemAdapter.Listener {
             override fun onClick(item: ShopListItem) {
                 mainViewModel.updateListItem(item)
             }
+        })
+    }
 
+    private fun editLibraryItem(item: ShopListItem) {
+        EditListItemDialog.showDialog(this, item, object : EditListItemDialog.Listener {
+            override fun onClick(item: ShopListItem) {
+                mainViewModel.updateLibraryItem(LibraryItem(item.id, item.name))
+                mainViewModel.getAllLibraryItems("%${edItem?.text.toString()}%")
+            }
         })
     }
 
